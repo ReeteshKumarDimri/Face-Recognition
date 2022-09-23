@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body
+{
+  background-color: rgb(14, 14, 20);
+  
+}
+.header
+{
+  background-color: rgb(255, 255, 255);
+  background-image: url("{{url_for('static',filename='wallpaperflare.com_wallpaper.jpg')}}");
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+}
+.search
+{
+  background-color: rgb(166, 176, 194);
+  padding: 18px;
+  color:rgb(16, 31, 38);
+  font-family: fantasy;
+  font-style: bolder;
+  font-size: 20x;
+  font-weight: 900px;
+  border-radius: 25px;
+}
+.text
+{
+  font-size: 21px;
+}
+.button
+{
+  background-color: #0c8848;
+  border: 2px;
+  border-radius: 20px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  font-weight: 600;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+}
+.names
+{
+  background-color: antiquewhite;
+  color :rgb(222, 24, 123);
+  font-weight: 600;
+  font-family: fantasy;
+  text-align: center;
+  border-radius: 25px;
+}
+.searchBar
+{
+  border: 2px;
+  border-radius: 25px;
+  height: 25px;
+  border-color:rgb(166, 176, 194) ;
+}
+h1.center
+{
+  font-family: fantasy;
+  font-style: bold;
+  font-size: 60px;
+  font-weight: 900;
+  text-align: center;
+  color: rgb(229, 229, 248);
+  text-shadow: 2px 2px 5px rgb(108, 213, 245);
+}
+div.gallery {
+  margin: 5px;
+  border: 1px solid rgb(8, 7, 7);
+  border-radius: 20px;
+  float: left;
+  width: 280px;
+  height: 300px;
+}
+
+.container{
+  width: 400px;
+  height: 400px;
+}
+
+div.gallery:hover {
+  border: 1px solid rgb(0, 238, 255);
+}
+
+div.gallery img {
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+div.search
+{
+  text-align: center;
+  font-size: 30;
+}
+
+#warn
+{
+  font-family: fantasy;
+  font-style: bold;
+  font-size: 60px;
+  font-weight: 900;
+  text-align: center;
+  color: rgb(214, 26, 186);
+  text-shadow: 2px 2px 5px rgb(156, 123, 123);
+}
+</style>
+</head>
+<body >
+<div class="header"><h1 class="center">FACE RECOGNITION</h1></div>
+<form action="http://localhost:5000/Fetch_Data" method="post">
+<button type="submit" value = "Recognize" class ="button"  name = "r">Recognize</button>
+<button type="submit" value = "Upload" class ="button"  name = "u">Upload</button>
+<button type="submit" value = "Add Encoding" class ="button" name = "a">Add Encoding</button>
+
+</form>
+{%if isvideo == True and isphotos == False and isform == False%}
+<body>
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-8  offset-lg-2">
+              <img src="{{ url_for('video_feed') }}" width="100%">
+          </div>
+      </div>
+  </div>
+  </body>
+{%endif%}
+{%if isvideo == False and isphotos == False and isform == True%}
+<form action="http://localhost:5000/Add" method="post" enctype="multipart/form-data" >
+  <div class = "search">
+  <label for="img" class = "text">Select an Image:</label>
+  <input type="file" name="img">
+  <br>
+  <label for="keyword" class="text">Enter the Name:</label>
+  <input type="text" id="keyword" name="q" class="searchBar">
+  <button type="submit"class ="button">Add</button>
+  </div>
+</form>
+{%endif%}
+{%if isvideo == False and isphotos == True and isform == False%}
+<form action="http://localhost:5000/imgs" method="post" enctype="multipart/form-data" >
+  <div class = "search">
+  <label for="img" class = "text">Select Images:</label>
+  <input type="file" name="img" multiple = "">
+  <button type="submit"class ="button">Upload</button>
+  </div>
+{% for i in images%}
+<div class="gallery">
+  <img src="{{ url_for('static', filename='Unknown/' + i[0])}}" width="1920" height="1080">
+  <div class = "names">{{i[1]}}</div>
+</div>
+{% endfor %}  
+</form>
+{%endif%}
+
+
+<div id = "warn">
+  {{warning}}
+</div>
+
+
+
+</body>
+</html>
